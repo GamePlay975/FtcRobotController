@@ -1,9 +1,16 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
+/*
+1st we need to get the motor positions from the encoder
+then need to make PID controller
+then we need to modify drive
+Inside of drive, need to make a function that converts tics to inches
+
+ */
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Robot implements Subsystem {
-    DriveTrain driveTrain = new DriveTrain();
+    public DriveTrain driveTrain = new DriveTrain();
     Subsystem [] subsystems;
     public Robot() {
         //constructor

@@ -4,6 +4,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Robot;
 import org.firstinspires.ftc.teamcode.Subsystems.Subsystem;
 import org.firstinspires.ftc.teamcode.TeleopActions.teleopAction;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scheduler {
+
 
 
 	List<LynxModule> allHubs;
@@ -26,19 +28,19 @@ public class Scheduler {
 
 	ArrayList<teleopAction> teleopActionArrayList;
 	// array of subsystems that need their update method called every loop
-	ArrayList<Subsystem> subsystemList;
 
 	protected action currentPersistentAction = null;
 
+	Robot robot;
+
 	/**
 	 * initialize scheduler for teleop usage.
-	 * @param subsystems robot subsystems
 	 * @param teleActions teleop specific actions
 	 * @param hwmap hardware map instance
 	 */
-	public Scheduler(ArrayList<Subsystem> subsystems, ArrayList<teleopAction> teleActions, HardwareMap hwmap) {
-		this.subsystemList = subsystems;
+	public Scheduler(Robot robot, ArrayList<teleopAction> teleActions, HardwareMap hwmap) {
 		this.teleopActionArrayList = teleActions;
+		this.robot = robot;
 		allHubs = hwmap.getAll(LynxModule.class);
 		for (LynxModule hub : allHubs) {
 			hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
@@ -50,11 +52,10 @@ public class Scheduler {
 	 * initialize scheduler for autonomous usage.
 	 * @param hwmap hardware map instance
 	 * @param actions autonomous specific actions
-	 * @param subsystems robot subsystems
 	 */
-	public Scheduler(HardwareMap hwmap, ArrayList<action> actions, ArrayList<Subsystem> subsystems) {
+	public Scheduler(HardwareMap hwmap, ArrayList<action> actions, Robot robot) {
 		this.actionList = actions;
-		this.subsystemList = subsystems;
+		this.robot = robot;
 		allHubs = hwmap.getAll(LynxModule.class);
 		for (LynxModule hub : allHubs) {
 			hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
@@ -75,9 +76,7 @@ public class Scheduler {
 	 */
 	public void updateRobot() {
 		// update each of the subsystems
-		for (Subsystem ss : subsystemList) {
-			ss.update();
-		}
+		robot.update();
 	}
 
 	/**

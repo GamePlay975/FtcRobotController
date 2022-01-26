@@ -21,14 +21,14 @@ public interface teleopAction {
 	 *
 	 * @return true if complete
 	 */
-	boolean isComplete();
+	boolean isComplete(); //always false
 
 	/**
 	 * assess if we should run this action
 	 *
 	 * @return true if we should run this action
 	 */
-	boolean shouldRun();
+	boolean shouldRun(); //always true
 
 	/**
 	 * reset states to where the action can be used again
