@@ -19,6 +19,7 @@ public class Drive implements action{
 
     @Override
     public void startAction() {
+        robot.driveTrain.resetEncoder();
         //need to zero out motor encoder
     }
 

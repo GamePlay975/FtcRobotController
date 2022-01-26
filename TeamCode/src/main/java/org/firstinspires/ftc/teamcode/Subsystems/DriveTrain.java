@@ -11,7 +11,7 @@ public class DriveTrain implements Subsystem{
     private DcMotor backRight;
     @Override
     public void init(HardwareMap hwMap) {
-        frontLeft = hwMap.get(DcMotor.class,"frontLeft");
+        frontLeft = hwMap.get(DcMotor.class,"frontLeft"); //String has to match config, not purple
         backLeft = hwMap.get(DcMotor.class,"backLeft");
         frontRight = hwMap.get(DcMotor.class,"frontRight");
         backRight = hwMap.get(DcMotor.class,"backRight");
@@ -46,5 +46,28 @@ public class DriveTrain implements Subsystem{
         backLeft.setPower(left);
         frontRight.setPower(right);
         backRight.setPower(right);
+    }
+    public void resetEncoder(){
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
+
+    public double getLeftEncoder(){
+        return frontLeft.getCurrentPosition();
+    }
+
+    public double getRightEncoder(){
+            return frontRight.getCurrentPosition();
+    }
+    public double getDistance(){
+            return (getLeftEncoder() + getRightEncoder())/2;
     }
 }
