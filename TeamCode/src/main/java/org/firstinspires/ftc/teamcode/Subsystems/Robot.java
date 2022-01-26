@@ -11,24 +11,24 @@ public class Robot implements Subsystem {
     }
     @Override
     public void init(HardwareMap hwMap) {
-        for (int i=0; i< subsystems.length; i++) {
-            subsystems[i].init(hwMap);
+        for (Subsystem subsystem : subsystems) {
+            subsystem.init(hwMap);
         }
 
     }
 
     @Override
     public void initNoReset(HardwareMap hwMap) {
-        for (int i=0; i< subsystems.length; i++) {
-            subsystems[i].initNoReset(hwMap);
+        for (Subsystem subsystem : subsystems) {
+            subsystem.initNoReset(hwMap);
         }
     }
 
     @Override
     public void update() {
-    for (int i=0; i< subsystems.length; i++) {
-        subsystems[i].update();
-    }
+        for (Subsystem subsystem : subsystems) {
+            subsystem.update();
+        }
     }
 
     @Override
