@@ -1,36 +1,33 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TestPIDStuffAlice extends LinearOpMode {
 
-    DcMotorEx motor; //ex = extended; has better features for accessing velocity on the motor
+    DcMotorEx motor;
+    double integralSum = 0; //some of these need to persist
+    double kp = 0;
+    double ki = 0;
+    double kd = 0;//these get tuned
+
+    ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
 
     public void runOpMode() throws InterruptedException {
         motor = hardwareMap.get(DcMotorEx.class, "motor");
-
-        double integralSum = 0; //what does 'need to persist' mean? (2:40 on Ben's video)
-        //Don't want integralSum value to reset between method calls, so store this
-        double Kp = 0;
-        double Ki = 0;
-        double Kd = 0;
-        //^These are the coefficients that get tuned.
-
-        ElapsedTime timer = new ElapsedTime();
+      //motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
         while (opModeIsActive()) {
-            double power = PIDControl(100, motor.getCurrentPosition());
-            //^can also make a velocity controller, pick up at 5:51
+          double power = PIDControl(100, motor.getCurrentPosition());
             motor.setPower(power);
-            //currentPosition is state
+                    //100 = 100 ticks
         }
     }
-    public double PIDControl (double reference, double state) {
-        //Ben recs abstracting out ur PID controller to another class and have instance of PID controller for each device u controlling
+    public double PIDControl(double reference, double state) {
         double error = reference - state;
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / timer.seconds();
@@ -38,8 +35,7 @@ public class TestPIDStuffAlice extends LinearOpMode {
 
         timer.reset();
 
-        double output = (error * Kp) + (derivative * Kd) + (integralSum * Ki);
+        double output = (error * kp) + (derivative * kd)+(integralSum * ki);
         return output;
     }
-
 }
