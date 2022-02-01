@@ -22,6 +22,7 @@ public class TestPIDStuffAlice extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+
           double power = PIDControl(100, motor.getCurrentPosition());
             motor.setPower(power);
                     //100 = 100 ticks
